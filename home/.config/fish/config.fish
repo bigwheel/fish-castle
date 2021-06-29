@@ -14,4 +14,14 @@ if status is-interactive
             ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
         end
     end
+
+
+    # universal variableを使うべきだがどう書いたらいいかわからない。
+    # universal variable、複数の環境で定義できなくない？
+    # http://qiita.com/takyam/items/d6afacc7934de9b0e85e
+    # if [ "$(uname)" = 'Darwin' ]; then
+    #     export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight # mac
+    # else
+    #     export PATH=$PATH:/usr/share/doc/git/contrib/diff-highlight # ubuntu
+    # end
 end
