@@ -34,17 +34,17 @@ function _get_flag
     if test $status -ne 0
         echo "not exist $scope scope variable `$variable_name`" 1>&2
         return 1
+    end
+
+    set -l result_line (set --show $variable_name | grep --color=never $scope)
+    # https://github.com/fish-shell/fish-shell/blob/874fc439ddd884b965b99a475c248eec83a0b58a/src/builtin_set.cpp#L510-L514
+    string match -rq '\A\$'$variable_name': set in '$scope' scope, (?<export_flag>(un)?exported),(?<path_flag>(| a path variable)) with \d+ elements\Z' -- $result_line
+    if test $status -ne 0
+        echo 'Illegal state.
+ut of `set --show` command may be changed.' 1>&2
+        return 1
     else
-        set -l result_line (set --show $variable_name | grep --color=never $scope)
-        # https://github.com/fish-shell/fish-shell/blob/874fc439ddd884b965b99a475c248eec83a0b58a/src/builtin_set.cpp#L510-L514
-        string match -rq '\A\$'$variable_name': set in '$scope' scope, (?<export_flag>(un)?exported),(?<path_flag>(| a path variable)) with \d+ elements\Z' -- $result_line
-        if test $status -ne 0
-            echo 'Illegal state.
-Output of `set --show` command may be changed.' 1>&2
-            return 1
-        else
-            echo $$flag_name
-        end
+        echo $$flag_name
     end
 end
 
