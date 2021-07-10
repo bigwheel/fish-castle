@@ -30,13 +30,13 @@ function _get_flag
     # argv check end
     ##################################
 
-    # https://github.com/fish-shell/fish-shell/blob/874fc439ddd884b965b99a475c248eec83a0b58a/src/builtin_set.cpp#L510-L514
-    set result_line (set --show $variable_name | grep --color=never $scope)
-
-    if test -z $result_line
+    check_variable_existence $variable_name $scope
+    if test $status -ne 0
         echo "not exist $scope scope variable `$variable_name`" 1>&2
         return 1
     else
+        set -l result_line (set --show $variable_name | grep --color=never $scope)
+        # https://github.com/fish-shell/fish-shell/blob/874fc439ddd884b965b99a475c248eec83a0b58a/src/builtin_set.cpp#L510-L514
         string match -rq '\A\$'$variable_name': set in '$scope' scope, (?<export_flag>(un)?exported),(?<path_flag>(| a path variable)) with \d+ elements\Z' -- $result_line
         if test $status -ne 0
             echo 'Illegal state.
