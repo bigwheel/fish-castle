@@ -2,16 +2,17 @@ function check_variable_existence
     ##################################
     # argv check start
     ##################################
-    if test (count $argv) -ne 3
+    if test (count $argv) -ne 2
         return 1
     end
 
     set -l variable_name $argv[1]
     set -l scope $argv[2]
-    set -l flag_name $argv[3] # export_flag or path_flag
     ##################################
     # argv check end
     ##################################
+
+    eval (echo "set --$scope --names") | grep --color=never -E '^'$variable_name'$' > /dev/null
 end
 
 function _get_flag
