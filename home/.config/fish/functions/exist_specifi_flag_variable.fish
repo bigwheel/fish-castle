@@ -36,9 +36,8 @@ function _get_flag
         return 1
     end
 
-    set -l result_line (set --show $variable_name | grep --color=never $scope)
     # https://github.com/fish-shell/fish-shell/blob/874fc439ddd884b965b99a475c248eec83a0b58a/src/builtin_set.cpp#L510-L514
-    string match -rq '\A\$'$variable_name': set in '$scope' scope, (?<export_flag>(un)?exported),(?<path_flag>(| a path variable)) with \d+ elements\Z' -- $result_line
+    string match -rq '\A\$'$variable_name': set in '$scope' scope, (?<export_flag>(un)?exported),(?<path_flag>(| a path variable)) with \d+ elements\Z' -- (set --show $variable_name)
     if test $status -ne 0
         echo 'Illegal state.
 ut of `set --show` command may be changed.' 1>&2
