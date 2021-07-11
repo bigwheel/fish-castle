@@ -259,3 +259,43 @@ complete -c backup_variables -n __fish_is_first_arg --force-files
 complete -c backup_variables -n __fish_is_second_arg -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
 complete -c backup_variables -n "not __fish_is_first_arg; and not __fish_is_second_arg; and __fish_second_arg_in global" -xa "(set -g | sed -e 's/ /\t/')"
 complete -c backup_variables -n "not __fish_is_first_arg; and not __fish_is_second_arg; and __fish_second_arg_in universal" -xa "(set -U | sed -e 's/ /\t/')"
+
+
+function backup_variable_dialog
+    ##################################
+    # argv check start
+    ##################################
+    if not test (count $argv) -eq 2
+        return 1
+    end
+
+    set -l filepath $argv[1]
+
+    if not string match -q $argv[2] 'global' 'universal'
+        echo '$argv[2] must be `global` or `universal`' 1>&2
+        return 1
+    end
+    set -l scope $argv[2]
+
+    ##################################
+    # argv check end
+    ##################################
+
+    # http://manpages.ubuntu.com/manpages/xenial/man1/whiptail.1.html
+    set -l items
+    for variable_name in (set -Un)
+        set -a items $variable_name
+        # set -a items "'""$$variable_name""'"
+        # set -a items (string escape -- $$variable_name)
+        set -a items $$variable_name
+        set -a items OFF # TODO: ここ後でファイルから読み込んで設定する
+    end
+    echo $items
+    echo $items[1]
+    echo $items[2]
+    echo $items[3]
+    whiptail --checklist text 0 0 0 -- $items
+end
+
+complete -c backup_variable_dialog -n __fish_is_first_arg --force-files
+complete -c backup_variable_dialog -n __fish_is_second_arg -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
