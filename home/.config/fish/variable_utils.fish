@@ -226,7 +226,7 @@ function backup_variables
     # argv check end
     ##################################
 
-    dump_variables $scope $variable_names
+    dump_variables $scope $variable_names > $filepath
 end
 
 # 参考: https://github.com/fish-shell/fish-shell/blob/4ec06f025c451c24ddc5d2532a7ead38a0005f9e/share/functions/__fish_is_first_arg.fish
@@ -259,4 +259,3 @@ complete -c backup_variables -n __fish_is_first_arg --force-files
 complete -c backup_variables -n __fish_is_second_arg -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
 complete -c backup_variables -n "not __fish_is_first_arg; and not __fish_is_second_arg; and __fish_second_arg_in global" -xa "(set -g | sed -e 's/ /\t/')"
 complete -c backup_variables -n "not __fish_is_first_arg; and not __fish_is_second_arg; and __fish_second_arg_in universal" -xa "(set -U | sed -e 's/ /\t/')"
-
