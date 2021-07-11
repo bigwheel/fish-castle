@@ -140,7 +140,66 @@ function dump_variable
     echo "set --$scope --$path_flag --$export_flag $variable_name $values"
 end
 
-complete -c dump_variable -n __fish_is_first_token -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
+complete -c dump_variable -n __fish_is_first_arg -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
 
 complete -c dump_variable -n "__fish_prev_arg_in global" -xa "(set -g | sed -e 's/ /\t/')"
 complete -c dump_variable -n "__fish_prev_arg_in universal" -xa "(set -U | sed -e 's/ /\t/')"
+
+function dump_variables
+    ##################################
+    # argv check start
+    ##################################
+    if not test (count $argv) -ge 2
+        return 1
+    end
+
+    if not string match -q $argv[1] 'global' 'universal'
+        echo '$argv[1] must be `global` or `universal`' 1>&2
+        return 1
+    end
+    set -l scope $argv[1]
+
+    set -l variable_names $argv[2..-1]
+    ##################################
+    # argv check end
+    ##################################
+
+    for variable_name in $variable_names
+        check_variable_existence $variable_name $scope
+        if test $status -ne 0
+            echo "not exist $scope scope variable `$variable_name`" 1>&2
+            return 1
+        end
+    end
+
+    for variable_name in $variable_names
+        set -l path_flag (get_path_flag $variable_name $scope)
+        set -l export_flag (get_export_flag $variable_name $scope)
+        set -l values (echo "'"$$variable_name"'")
+        echo "set --$scope --$path_flag --$export_flag $variable_name $values"
+    end
+end
+
+complete -c dump_variables -n __fish_is_first_arg -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
+
+
+# 参考: https://github.com/fish-shell/fish-shell/blob/4ec06f025c451c24ddc5d2532a7ead38a0005f9e/share/functions/__fish_prev_arg_in.fish
+# returns 0 only if first argument is one of the supplied arguments
+function __fish_first_arg_in
+    set -l tokens (commandline -co)
+    set -l tokenCount (count $tokens)
+    if test $tokenCount -lt 2
+        # need at least cmd and first argument
+        return 1
+    end
+    for arg in $argv
+        if string match -q -- $tokens[2] $arg
+            return 0
+        end
+    end
+
+    return 1
+end
+
+complete -c dump_variables -n "not __fish_is_first_arg; and __fish_first_arg_in global" -xa "(set -g | sed -e 's/ /\t/')"
+complete -c dump_variables -n "not __fish_is_first_arg; and __fish_first_arg_in universal" -xa "(set -U | sed -e 's/ /\t/')"
