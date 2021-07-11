@@ -203,3 +203,60 @@ end
 
 complete -c dump_variables -n "not __fish_is_first_arg; and __fish_first_arg_in global" -xa "(set -g | sed -e 's/ /\t/')"
 complete -c dump_variables -n "not __fish_is_first_arg; and __fish_first_arg_in universal" -xa "(set -U | sed -e 's/ /\t/')"
+
+function backup_variables
+    ##################################
+    # argv check start
+    ##################################
+    if not test (count $argv) -ge 3
+        return 1
+    end
+
+    set -l filepath $argv[1]
+
+    if not string match -q $argv[2] 'global' 'universal'
+        echo '$argv[2] must be `global` or `universal`' 1>&2
+        return 1
+    end
+    set -l scope $argv[2]
+
+    set -l variable_names $argv[3..-1]
+
+    ##################################
+    # argv check end
+    ##################################
+
+    dump_variables $scope $variable_names
+end
+
+# 参考: https://github.com/fish-shell/fish-shell/blob/4ec06f025c451c24ddc5d2532a7ead38a0005f9e/share/functions/__fish_is_first_arg.fish
+# determine if this is the very second argument (regardless if switch or not)
+function __fish_is_second_arg
+    set -l tokens (commandline -poc)
+    test (count $tokens) -eq 2
+end
+
+# 参考: https://github.com/fish-shell/fish-shell/blob/4ec06f025c451c24ddc5d2532a7ead38a0005f9e/share/functions/__fish_prev_arg_in.fish
+# returns 0 only if second argument is one of the supplied arguments
+function __fish_second_arg_in
+    set -l tokens (commandline -co)
+    set -l tokenCount (count $tokens)
+    if test $tokenCount -lt 3
+        # need at least cmd and second argument
+        return 1
+    end
+    for arg in $argv
+        if string match -q -- $tokens[3] $arg
+            return 0
+        end
+    end
+
+    return 1
+end
+
+
+complete -c backup_variables -n __fish_is_first_arg --force-files
+complete -c backup_variables -n __fish_is_second_arg -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
+complete -c backup_variables -n "not __fish_is_first_arg; and not __fish_is_second_arg; and __fish_second_arg_in global" -xa "(set -g | sed -e 's/ /\t/')"
+complete -c backup_variables -n "not __fish_is_first_arg; and not __fish_is_second_arg; and __fish_second_arg_in universal" -xa "(set -U | sed -e 's/ /\t/')"
+
