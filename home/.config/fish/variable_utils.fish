@@ -308,7 +308,13 @@ function backup_variable_dialog
         end
     end
     # http://manpages.ubuntu.com/manpages/xenial/man1/whiptail.1.html
-    whiptail --checklist text 0 0 0 -- $items
+    set -l selected_vars (whiptail --checklist text 0 0 0 -- $items 3>&1 1>&2 2>&3 | string split ' ' | string trim --chars='"')
+    # set -l selected_vars (whiptail --checklist text 0 0 0 -- $items 3>&1 1>&2 2>&3 | string replace --all '"' '')
+    if test $status -ne 0
+        return 1
+    else
+        backup_variables $filepath $scope $selected_vars
+    end
 end
 
 complete -c backup_variable_dialog -n __fish_is_first_arg --force-files
