@@ -142,5 +142,5 @@ end
 
 complete -c dump_variable -n __fish_is_first_token -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
 
-complete -c dump_variable -n "__fish_prev_arg_in global" -xa "(set -ng)"
-complete -c dump_variable -n "__fish_prev_arg_in universal" -xa "(set -nU)"
+complete -c dump_variable -n "__fish_prev_arg_in global" -xa "(set -g | sed -e 's/ /\t/')"
+complete -c dump_variable -n "__fish_prev_arg_in universal" -xa "(set -U | sed -e 's/ /\t/')"
