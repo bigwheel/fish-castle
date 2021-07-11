@@ -117,13 +117,13 @@ function dump_variable
         return 1
     end
 
-    set -l variable_name $argv[1]
-
-    if not string match -q $argv[2] 'global' 'universal'
-        echo '$argv[2] must be `global` or `universal`' 1>&2
+    if not string match -q $argv[1] 'global' 'universal'
+        echo '$argv[1] must be `global` or `universal`' 1>&2
         return 1
     end
-    set -l scope $argv[2]
+    set -l scope $argv[1]
+
+    set -l variable_name $argv[2]
     ##################################
     # argv check end
     ##################################
@@ -140,6 +140,7 @@ function dump_variable
     echo "set --$scope --$path_flag --$export_flag $variable_name $values"
 end
 
-complete --no-files -c dump_variable -a (begin set -nU ; set -ng; end | tr '\n' '\t')
-# complete -c dump_variable -n __fish_is_first_token -xa (begin set -nU ; set -ng; end)
-# complete -c dump_variable -n "__fish_prev_arg_in abc" -xa "global universal"
+complete -c dump_variable -n __fish_is_first_token -xa "(string unescape 'universal\tuniversal scope\nglobal\tglobal scope')"
+
+complete -c dump_variable -n "__fish_prev_arg_in global" -xa "(set -ng)"
+complete -c dump_variable -n "__fish_prev_arg_in universal" -xa "(set -nU)"
