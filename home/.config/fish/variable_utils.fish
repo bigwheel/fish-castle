@@ -140,4 +140,6 @@ function dump_variable
     echo "set --$scope --$path_flag --$export_flag $variable_name $values"
 end
 
-complete --no-files -c dump_variable -a (begin set -nU ; set -ng; end | sort | uniq | tr '\n' '\t')
+complete --no-files -c dump_variable -a (begin set -nU ; set -ng; end | tr '\n' '\t')
+# complete -c dump_variable -n __fish_is_first_token -xa (begin set -nU ; set -ng; end)
+# complete -c dump_variable -n "__fish_prev_arg_in abc" -xa "global universal"
