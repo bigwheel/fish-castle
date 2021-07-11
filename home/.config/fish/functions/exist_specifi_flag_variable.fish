@@ -66,7 +66,16 @@ function get_export_flag
     # argv check end
     ##################################
 
-    _get_flag $variable_name $scope export_flag
+    set -l export_message (_get_flag $variable_name $scope export_flag)
+    switch $export_message
+        case 'exported'
+            echo 'export'
+        case 'unexported'
+            echo 'unexport'
+        case '*'
+            echo 'Illegal state' 1>&2
+            return 1
+    end
 end
 
 function get_path_flag
@@ -99,3 +108,36 @@ function get_path_flag
             return 1
     end
 end
+
+function dump_variable
+    ##################################
+    # argv check start
+    ##################################
+    if test (count $argv) -ne 2
+        return 1
+    end
+
+    set -l variable_name $argv[1]
+
+    if not string match -q $argv[2] 'global' 'universal'
+        echo '$argv[2] must be `global` or `universal`' 1>&2
+        return 1
+    end
+    set -l scope $argv[2]
+    ##################################
+    # argv check end
+    ##################################
+
+    check_variable_existence $variable_name $scope
+    if test $status -ne 0
+        echo "not exist $scope scope variable `$variable_name`" 1>&2
+        return 1
+    end
+
+    set -l path_flag (get_path_flag $variable_name $scope)
+    set -l export_flag (get_export_flag $variable_name $scope)
+    set -l values (echo "'"$$variable_name"'")
+    echo "set --$scope --$path_flag --$export_flag $variable_name $values"
+end
+
+complete --no-files -c dump_variable -a (begin set -nU ; set -ng; end | sort | uniq | tr '\n' '\t')
