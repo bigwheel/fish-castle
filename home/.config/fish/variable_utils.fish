@@ -291,11 +291,21 @@ function backup_variable_dialog
             echo 'Illegal state' 1>&2
             return 1
     end
+
+    set -l vars_in_file
+    if test -f $filepath
+        set vars_in_file (cat $filepath | sed -E 's/^set --(universal|global) --(|un)path --(|un)export (\S+) .*$/\4/')
+    end
+
     set -l items
     for variable_name in $variable_names
         set -a items $variable_name
         set -a items (string escape -- "$$variable_name")
-        set -a items OFF # TODO: ここ後でファイルから読み込んで設定する
+        if contains $variable_name $vars_in_file
+            set -a items ON
+        else
+            set -a items OFF
+        end
     end
     # http://manpages.ubuntu.com/manpages/xenial/man1/whiptail.1.html
     whiptail --checklist text 0 0 0 -- $items
