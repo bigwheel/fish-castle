@@ -24,4 +24,6 @@ if status is-interactive
     # else
     #     export PATH=$PATH:/usr/share/doc/git/contrib/diff-highlight # ubuntu
     # end
+
+    source $__fish_config_dir/variable_utils.fish
 end
