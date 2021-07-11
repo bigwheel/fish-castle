@@ -281,14 +281,24 @@ function backup_variable_dialog
     # argv check end
     ##################################
 
-    # http://manpages.ubuntu.com/manpages/xenial/man1/whiptail.1.html
+    set -l variable_names
+    switch $scope
+        case global
+            set variable_names (set -gn)
+        case universal
+            set variable_names (set -Un)
+        case '*'
+            echo 'Illegal state' 1>&2
+            return 1
+    end
     set -l items
-    for variable_name in (set -Un)
+    for variable_name in $variable_names
         set -a items $variable_name
         set -a items (string escape -- "$$variable_name")
         set -a items OFF # TODO: ここ後でファイルから読み込んで設定する
     end
-    whiptail --checklist text 0 0 0 -- (string unescape -- $items)
+    # http://manpages.ubuntu.com/manpages/xenial/man1/whiptail.1.html
+    whiptail --checklist text 0 0 0 -- $items
 end
 
 complete -c backup_variable_dialog -n __fish_is_first_arg --force-files
