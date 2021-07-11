@@ -285,16 +285,10 @@ function backup_variable_dialog
     set -l items
     for variable_name in (set -Un)
         set -a items $variable_name
-        # set -a items "'""$$variable_name""'"
-        # set -a items (string escape -- $$variable_name)
-        set -a items $$variable_name
+        set -a items (string escape -- "$$variable_name")
         set -a items OFF # TODO: ここ後でファイルから読み込んで設定する
     end
-    echo $items
-    echo $items[1]
-    echo $items[2]
-    echo $items[3]
-    whiptail --checklist text 0 0 0 -- $items
+    whiptail --checklist text 0 0 0 -- (string unescape -- $items)
 end
 
 complete -c backup_variable_dialog -n __fish_is_first_arg --force-files
