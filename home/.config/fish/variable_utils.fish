@@ -308,7 +308,7 @@ function backup_variable_dialog
         end
     end
     # http://manpages.ubuntu.com/manpages/xenial/man1/whiptail.1.html
-    set -l selected_vars (whiptail --checklist text 0 0 0 -- $items 3>&1 1>&2 2>&3 | string split ' ' | string trim --chars='"')
+    set -l selected_vars (dialog --checklist text 0 0 0 -- $items 3>&1 1>&2 2>&3 | string split ' ' | string trim --chars='"')
     # set -l selected_vars (whiptail --checklist text 0 0 0 -- $items 3>&1 1>&2 2>&3 | string replace --all '"' '')
     if test $status -ne 0
         return 1
