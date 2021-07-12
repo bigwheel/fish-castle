@@ -16,14 +16,13 @@ if status is-interactive
     end
 
 
-    # universal variableを使うべきだがどう書いたらいいかわからない。
-    # universal variable、複数の環境で定義できなくない？
+    # https://fishshell.com/docs/current/tutorial.html#path
     # http://qiita.com/takyam/items/d6afacc7934de9b0e85e
-    # if [ "$(uname)" = 'Darwin' ]; then
-    #     export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight # mac
-    # else
-    #     export PATH=$PATH:/usr/share/doc/git/contrib/diff-highlight # ubuntu
-    # end
+    if [ "(uname)" = 'Darwin' ]; then
+        fish_add_path /usr/local/share/git-core/contrib/diff-highlight # mac
+    else
+        fish_add_path /usr/share/doc/git/contrib/diff-highlight # ubuntu
+    end
 
     source $__fish_config_dir/variable_utils.fish
 end
