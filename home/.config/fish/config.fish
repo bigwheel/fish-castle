@@ -25,4 +25,6 @@ if status is-interactive
     end
 
     source $__fish_config_dir/variable_utils.fish
+    fish_add_path $HOME/.cargo/bin
+    starship init fish | source
 end
