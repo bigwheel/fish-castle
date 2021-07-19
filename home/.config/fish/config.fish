@@ -24,9 +24,10 @@ if status is-interactive
         fish_add_path /usr/share/doc/git/contrib/diff-highlight # ubuntu
     end
 
-    # バックアップを脳死でロードすることは一旦やめた
-    # source $__fish_config_dir/variable_utils.fish
-    fish_add_path $HOME/.cargo/bin
+    source $__fish_config_dir/variable_utils.fish
+    if test -e $HOME/.cargo/bin
+        fish_add_path $HOME/.cargo/bin
+    end
     starship init fish | source
 
     if test -e $HOME/.homesick/repos/homeshick/homeshick.fish
