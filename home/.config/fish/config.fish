@@ -28,6 +28,10 @@ if status is-interactive
     if test -e $HOME/.cargo/bin
         fish_add_path $HOME/.cargo/bin
     end
+    if not which starship > /dev/null 2>&1
+        # この下がfishで意図通り動いてくれない。今度直すこと
+        sh -c "(curl -fsSL https://starship.rs/install.sh)"
+    end
     starship init fish | source
 
     if test -e $HOME/.homesick/repos/homeshick/homeshick.fish
