@@ -37,4 +37,8 @@ if status is-interactive
     if test -e $HOME/.homesick/repos/homeshick/homeshick.fish
         source "$HOME/.homesick/repos/homeshick/homeshick.fish"
     end
+
+    if test -e /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
+        source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
+    end
 end
