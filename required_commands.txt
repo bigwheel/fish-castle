@@ -1,0 +1,22 @@
+# water
+git
+vim
+fish
+starship
+
+# rust modern commands
+exa - ls
+broot - tree
+fd - find
+bat - cat
+delta - git tui
+xsv - csv
+lsd - ls
+gitui - git tui
+
+# candidates
+alacritty - terminal
+twterm - twitter tui
+
+# incubating
+nushell - shell
