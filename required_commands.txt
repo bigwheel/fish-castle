@@ -5,14 +5,18 @@ fish
 starship
 
 # rust modern commands
+ripgrep - grep
 exa - ls
 broot - tree
 fd - find
 bat - cat
+tokei - wc
 delta - git tui
 xsv - csv
 lsd - ls
 gitui - git tui
+procs - ps
+
 
 # candidates
 alacritty - terminal
