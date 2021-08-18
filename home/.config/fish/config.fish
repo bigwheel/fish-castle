@@ -42,3 +42,5 @@ if status is-interactive
         source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
     end
 end
+fish_add_path /usr/local/opt/mysql-client/bin
+set -gx PATH $PATH $HOME/.krew/bin
