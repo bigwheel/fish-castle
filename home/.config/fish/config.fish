@@ -20,6 +20,8 @@ if status is-interactive
     # http://qiita.com/takyam/items/d6afacc7934de9b0e85e
     if [ (uname) = 'Darwin' ]
         fish_add_path /usr/local/share/git-core/contrib/diff-highlight # mac
+        fish_add_path /usr/local/opt/mysql-client/bin
+        source /usr/local/opt/asdf/libexec/asdf.fish
     else
         fish_add_path /usr/share/doc/git/contrib/diff-highlight # ubuntu
     end
@@ -42,5 +44,4 @@ if status is-interactive
         source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
     end
 end
-fish_add_path /usr/local/opt/mysql-client/bin
 set -gx PATH $PATH $HOME/.krew/bin
