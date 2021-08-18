@@ -15,6 +15,7 @@ if status is-interactive
         end
     end
 
+    fish_add_path $HOME/.krew/bin
 
     # https://fishshell.com/docs/current/tutorial.html#path
     # http://qiita.com/takyam/items/d6afacc7934de9b0e85e
@@ -44,4 +45,3 @@ if status is-interactive
         source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
     end
 end
-set -gx PATH $PATH $HOME/.krew/bin
