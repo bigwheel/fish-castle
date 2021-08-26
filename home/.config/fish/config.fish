@@ -7,13 +7,14 @@ if status is-interactive
     end
 
     # asdfのセットアップだけ自動化した。インストールは自動化されていない
-    if test -e ~/.asdf
-        source ~/.asdf/asdf.fish
-        if not test -e ~/.config/fish/completions/asdf.fish
-            mkdir -p ~/.config/fish/completions
-            ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
-        end
-    end
+    # 追記: 以下はlinux専用っぽい
+    # if test -e ~/.asdf
+    #     source ~/.asdf/asdf.fish
+    #     if not test -e ~/.config/fish/completions/asdf.fish
+    #         mkdir -p ~/.config/fish/completions
+    #         ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+    #     end
+    # end
 
     fish_add_path $HOME/.krew/bin
 
