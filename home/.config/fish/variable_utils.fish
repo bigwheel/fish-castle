@@ -1,3 +1,10 @@
+# GNU sedとBSD sedの違いを吸収する
+if [ (uname) = 'Darwin' ]
+    set sed_cmd gsed
+else
+    set sed_cmd sed
+end
+
 function check_variable_existence
     ##################################
     # argv check start
@@ -294,7 +301,7 @@ function backup_variable_dialog
 
     set -l vars_in_file
     if test -f $filepath
-        set vars_in_file (cat $filepath | sed -E 's/^set --(universal|global) --(|un)path --(|un)export (\S+) .*$/\4/')
+        set vars_in_file (cat $filepath | $sed_cmd -E 's/^set --(universal|global) --(|un)path --(|un)export (\S+) .*$/\4/')
     end
 
     set -l items
