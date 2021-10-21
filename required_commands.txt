@@ -4,6 +4,9 @@ vim
 fish
 starship
 
+# testing
+icdiff
+
 # rust modern commands
 ripgrep - grep
 exa - ls

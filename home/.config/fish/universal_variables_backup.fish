@@ -1,5 +1,8 @@
+set --universal --unpath --unexport _fish_abbr_ag 'ag --ignore-case'
 set --universal --unpath --unexport _fish_abbr_cp 'cp -i'
+set --universal --unpath --unexport _fish_abbr_d 'icdiff'
 set --universal --unpath --unexport _fish_abbr_df 'df -h'
+set --universal --unpath --unexport _fish_abbr_diff 'icdiff'
 set --universal --unpath --unexport _fish_abbr_du 'du -h'
 set --universal --unpath --unexport _fish_abbr_ga 'git add'
 set --universal --unpath --unexport _fish_abbr_gb 'git branch'
