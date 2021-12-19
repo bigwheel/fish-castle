@@ -46,4 +46,8 @@ if status is-interactive
     if test -e /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
         source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
     end
+
+    if which direnv > /dev/null 2>&1
+        direnv hook fish | source
+    end
 end
