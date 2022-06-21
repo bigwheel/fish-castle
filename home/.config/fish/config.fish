@@ -1,4 +1,5 @@
 if status is-interactive
+    fish_add_path $HOME/bin
     # Commands to run in interactive sessions can go here
 
     # fisherのインストールを自動化
@@ -24,6 +25,7 @@ if status is-interactive
     if [ (uname) = 'Darwin' ]
         fish_add_path /usr/local/share/git-core/contrib/diff-highlight # mac
         fish_add_path /usr/local/opt/mysql-client/bin
+        fish_add_path /usr/local/opt/findutils/libexec/gnubin
         source /usr/local/opt/asdf/libexec/asdf.fish
     else
         fish_add_path /usr/share/doc/git/contrib/diff-highlight # ubuntu
