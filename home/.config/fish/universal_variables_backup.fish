@@ -49,3 +49,4 @@ set --universal --unpath --unexport fish_pager_color_completion
 set --universal --unpath --unexport fish_pager_color_description 'B3A06D' 'yellow'
 set --universal --unpath --unexport fish_pager_color_prefix 'normal' '--bold' '--underline'
 set --universal --unpath --unexport fish_pager_color_progress 'brwhite' '--background=cyan'
+set --universal --unpath --unexport fish_pager_color_selected_background '-r'
