@@ -1,4 +1,11 @@
 if status is-interactive
+    # 以下は期待通りに動いていない気がする
+    # # https://qiita.com/yoshiori/items/f1c01dd94bb5f0489cf6
+    # function history-merge --on-event fish_preexec
+    #     history --save
+    #     history --merge
+    # end
+
     set HOMEBREW_PREFIX /opt/homebrew
     fish_add_path $HOMEBREW_PREFIX/bin
     fish_add_path $HOME/bin
@@ -24,6 +31,22 @@ if status is-interactive
     # https://fishshell.com/docs/current/tutorial.html#path
     # http://qiita.com/takyam/items/d6afacc7934de9b0e85e
     if [ (uname) = 'Darwin' ]
+        set -gx RUBY_CONFIGURE_OPTS "--with-openssl-dir=$(brew --prefix openssl@1.1)"
+        # 実験中。
+        # https://github.com/rbenv/ruby-build/issues/1699#issuecomment-762122911
+        # だけで動くなら以下は削除すること。
+        # M1 macにRuby 2.6 / 2.7をインストールするための設定
+        # https://stackoverflow.com/a/69012677
+        # イコールを消したりbrewpath変数を使うようにしたりで、ちゃんと使うならもうちょい手直し必要
+        # set -gx RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+        # set -gx LDFLAGS="-L/opt/homebrew/opt/readline/lib:$LDFLAGS"
+        # set -gx CPPFLAGS="-I/opt/homebrew/opt/readline/include:$CPPFLAGS"
+        # set -gx PKG_CONFIG_PATH="/opt/homebrew/opt/readline/lib/pkgconfig:$PKG_CONFIG_PATH"
+        # set -gx optflags="-Wno-error=implicit-function-declaration"
+        # set -gx LDFLAGS="-L/opt/homebrew/opt/libffi/lib:$LDFLAGS"
+        # set -gx CPPFLAGS="-I/opt/homebrew/opt/libffi/include:$CPPFLAGS"
+        # set -gx PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig:$PKG_CONFIG_PATH"
+
         fish_add_path $HOMEBREW_PREFIX/share/git-core/contrib/diff-highlight # mac
         fish_add_path $HOMEBREW_PREFIX/opt/mysql-client/bin
         fish_add_path $HOMEBREW_PREFIX/opt/findutils/libexec/gnubin
