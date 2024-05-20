@@ -10,6 +10,8 @@ if status is-interactive
     fish_add_path $HOMEBREW_PREFIX/bin
     fish_add_path $HOME/bin
 
+    fish_add_path $HOME/.tfenv/bin
+
     # fisherのインストールを自動化
     if not test -e $__fish_config_dir/fish_plugins
         curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
@@ -31,7 +33,7 @@ if status is-interactive
     # https://fishshell.com/docs/current/tutorial.html#path
     # http://qiita.com/takyam/items/d6afacc7934de9b0e85e
     if [ (uname) = 'Darwin' ]
-        set -gx RUBY_CONFIGURE_OPTS "--with-openssl-dir=$(brew --prefix openssl@1.1)"
+        set -gx RUBY_CONFIGURE_OPTS "--with-openssl-dir=(brew --prefix openssl@1.1)"
         # 実験中。
         # https://github.com/rbenv/ruby-build/issues/1699#issuecomment-762122911
         # だけで動くなら以下は削除すること。
@@ -77,5 +79,10 @@ if status is-interactive
 
     if which direnv > /dev/null 2>&1
         direnv hook fish | source
+    end
+
+    if set -q WSLENV
+        set -x BROWSER "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
+        set -x EDITOR vim
     end
 end
