@@ -83,6 +83,7 @@ if status is-interactive
 
     if set -q WSLENV
         set -x BROWSER "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
+        set -x GH_BROWSER "/mnt/c/Program\ Files/Google/Chrome/Application/chrome.exe"
         set -x EDITOR vim
     end
 end
