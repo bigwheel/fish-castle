@@ -9,6 +9,7 @@ if status is-interactive
     set HOMEBREW_PREFIX /opt/homebrew
     fish_add_path $HOMEBREW_PREFIX/bin
     fish_add_path $HOME/bin
+    fish_add_path $HOME/.local/bin
 
     fish_add_path $HOME/.tfenv/bin
 
@@ -77,13 +78,14 @@ if status is-interactive
         source $HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
     end
 
-    if which direnv > /dev/null 2>&1
-        direnv hook fish | source
-    end
-
     if set -q WSLENV
         set -x BROWSER "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
         set -x GH_BROWSER "/mnt/c/Program\ Files/Google/Chrome/Application/chrome.exe"
         set -x EDITOR vim
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    end
+
+    if which direnv > /dev/null 2>&1
+        direnv hook fish | source
     end
 end
