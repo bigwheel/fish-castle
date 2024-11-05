@@ -20,12 +20,14 @@ if status is-interactive
 
     # asdfのセットアップだけ自動化した。インストールは自動化されていない
     if not [ (uname) = 'Darwin' ]
-      if test -e ~/.asdf
+      if test -e ~/.asdf/asdf.fish
           source ~/.asdf/asdf.fish
           if not test -e ~/.config/fish/completions/asdf.fish
               mkdir -p ~/.config/fish/completions
               ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
           end
+      else
+          source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.fish
       end
     end
 
